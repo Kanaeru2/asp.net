@@ -15,13 +15,11 @@ class Program
         
         if (hasil == "Masih Muda")
         {
-        Person person = new Person();
-        person.name = "Daffa";
-        person.age = 15;
-
-        person.Greet();
+            // Menginisialisasi objek Person dengan nama dan usia
+            Person person = new Person("Daffa", 15);  // Memastikan properti 'name' diinisialisasi
+            person.Greet();
         }
-        else if (hasil == "imut")
+        else if (hasil == "Imut")  // Pastikan "Imut" sesuai dengan nilai yang dikembalikan oleh CheckUmur
         {
             Console.WriteLine("Main YUK sama Adek aku");
         }
@@ -29,8 +27,6 @@ class Program
         {
             Console.WriteLine("Yang penting Imut");
         }
-
-       
     }
 
     // Mengubah tipe return menjadi string
@@ -50,15 +46,23 @@ class Program
         }
     }
 }
+
 class Person
 {
-  public string name { get; set;}
-  public int age { get; set;}
+    public string name { get; set; }
+    public int age { get; set; }
 
-  public void Greet()
-  {
-           Console.WriteLine("Halo, nama saya " + name + " dan saya berusia " + age + " tahun.");
-  }
-  
+    // Konstruktor untuk memastikan properti 'name' diinisialisasi
+    public Person(string name, int age)
+    {
+        this.name = name;
+        this.age = age;
+    }
 
+    public void Greet()
+    {
+        // Menggunakan interpolasi string dengan $
+        Console.WriteLine($"Halo, nama saya {name} dan saya berusia {age} tahun.");
+    }
 }
+
