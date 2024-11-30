@@ -1,68 +1,89 @@
 ﻿using System;
+using MyCSharpApp.Components;
 
 class Program
 {
     static void Main(string[] args)
     {
-        // Menampilkan pesan ke konsol
-        Console.WriteLine("Hello, World!");
-        // Menampilkan pesan personalisasi
-        Console.WriteLine("Halo, Kobo!");
+        var kalkulator = new Kalkulator();
+        bool running = true;
 
-        int umur = 15;
-        string hasil = CheckUmur(umur);
-        Console.WriteLine(hasil);
-        
-        if (hasil == "Masih Muda")
+        while (running)
         {
-            // Menginisialisasi objek Person dengan nama dan usia
-            Person person = new Person("Daffa", 15);  // Memastikan properti 'name' diinisialisasi
-            person.Greet();
-        }
-        else if (hasil == "Imut")  // Pastikan "Imut" sesuai dengan nilai yang dikembalikan oleh CheckUmur
-        {
-            Console.WriteLine("Main YUK sama Adek aku");
-        }
-        else
-        {
-            Console.WriteLine("Yang penting Imut");
+            Console.Clear();
+            Console.WriteLine("=== Mini Kalkulator Interaktif ===");
+            Console.WriteLine("1. Penjumlahan");
+            Console.WriteLine("2. Pengurangan");
+            Console.WriteLine("3. Perkalian");
+            Console.WriteLine("4. Pembagian");
+            Console.WriteLine("5. Akar Kuadrat");
+            Console.WriteLine("6. Pangkat");
+            Console.WriteLine("7. Faktorial");
+            Console.WriteLine("0. Keluar");
+            Console.Write("Pilih operasi (0-7): ");
+            string pilihan = Console.ReadLine() ?? string.Empty;
+
+            try
+            {
+                switch (pilihan)
+                {
+                    case "1":
+                        OperasiDuaAngka("Penjumlahan", kalkulator.Tambah);
+                        break;
+                    case "2":
+                        OperasiDuaAngka("Pengurangan", kalkulator.Kurang);
+                        break;
+                    case "3":
+                        OperasiDuaAngka("Perkalian", kalkulator.Kali);
+                        break;
+                    case "4":
+                        OperasiDuaAngka("Pembagian", kalkulator.Bagi);
+                        break;
+                    case "5":
+                        Console.Write("Masukkan angka: ");
+                        double akarInput = Convert.ToDouble(Console.ReadLine());
+                        Console.WriteLine($"Hasil: {kalkulator.AkarKuadrat(akarInput)}");
+                        break;
+                    case "6":
+                        Console.Write("Masukkan basis: ");
+                        double basis = Convert.ToDouble(Console.ReadLine());
+                        Console.Write("Masukkan pangkat: ");
+                        double eksponen = Convert.ToDouble(Console.ReadLine());
+                        Console.WriteLine($"Hasil: {kalkulator.Pangkat(basis, eksponen)}");
+                        break;
+                    case "7":
+                        Console.Write("Masukkan angka: ");
+                        int faktorialInput = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine($"Hasil: {kalkulator.Faktorial(faktorialInput)}");
+                        break;
+                    case "0":
+                        running = false;
+                        Console.WriteLine("Keluar dari program. Terima kasih!");
+                        break;
+                    default:
+                        Console.WriteLine("Pilihan tidak valid. Coba lagi.");
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+            }
+
+            if (running)
+            {
+                Console.WriteLine("\nTekan Enter untuk melanjutkan...");
+                Console.ReadLine();
+            }
         }
     }
 
-    // Mengubah tipe return menjadi string
-    static string CheckUmur(int umur)
+    static void OperasiDuaAngka(string operasi, Func<double, double, double> func)
     {
-        if (umur < 6)
-        {
-            return "Imut";  // Perbaikan: menggunakan return dengan titik koma
-        } 
-        else if (umur <= 15)
-        {
-            return "Masih Muda";  // Perbaikan: menggunakan return dengan titik koma
-        }
-        else 
-        {
-            return "Yang penting Imut";  // Perbaikan: menambahkan return
-        }
+        Console.Write($"Masukkan angka pertama untuk {operasi}: ");
+        double a = Convert.ToDouble(Console.ReadLine());
+        Console.Write($"Masukkan angka kedua untuk {operasi}: ");
+        double b = Convert.ToDouble(Console.ReadLine());
+        Console.WriteLine($"Hasil {operasi}: {func(a, b)}");
     }
 }
-
-class Person
-{
-    public string name { get; set; }
-    public int age { get; set; }
-
-    // Konstruktor untuk memastikan properti 'name' diinisialisasi
-    public Person(string name, int age)
-    {
-        this.name = name;
-        this.age = age;
-    }
-
-    public void Greet()
-    {
-        // Menggunakan interpolasi string dengan $
-        Console.WriteLine($"Halo, nama saya {name} dan saya berusia {age} tahun.");
-    }
-}
-
